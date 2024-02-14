@@ -10,6 +10,7 @@ En esta práctica vamos a hacer un chat Multiusuario que se comunique mediante M
 
 ### Librerías Python necesarias:
 - Flask-SQLAlchemy ``pip install -U Flask-SQLAlchemy``
+- Eel ``pip install Eel``
 
 
 
