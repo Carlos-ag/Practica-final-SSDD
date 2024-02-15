@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             if (data.success) {
                 // Redirect to home.html upon successful login
-                window.location.href = "html/home.html";
+                window.location.href = "home.html";
             } else {
                 // Handle login failure (e.g., show an error message)
                 alert("Login failed: " + data.message);

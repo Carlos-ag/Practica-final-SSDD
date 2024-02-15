@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                console.log("Success:", data);
                 // Redirect to home.html upon successful registration
                 window.location.href = "home.html";
             } else {

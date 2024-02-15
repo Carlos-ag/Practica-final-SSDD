@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // // Add click event listener to the logout button
     logoutButton.addEventListener('click', function() {
         // Redirect the user to the index page
-        window.location.href = '../index.html';
+        console.log('Logout button clicked');
+        window.location.href = 'login.html';
     });
 });
