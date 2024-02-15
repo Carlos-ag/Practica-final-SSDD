@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Interface</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="../CSS/chat.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-1rQoXkE9EsLymzKLRbtZ/jYB2+ELQvISwWFnJlrE2CWmjcsBLPWE4KXROEL2+q6v" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"> 
+    <link rel="stylesheet" href="../css/chat.css">
+
 </head>
 <body>
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
-            <button class="btn btn-outline-success" type="button">CREATE GROUP</button>
+            <button class="btn btn-outline-success" type="button"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
             <div class="navbar-nav mx-auto">
                 <span class="navbar-brand mb-0 h1">Group Name</span>
             </div>
-            <button class="btn btn-outline-primary" type="button">JOIN GROUP</button>
-            <a href="#" class="btn btn-outline-danger ml-auto"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <div>
+                <button class="btn btn-outline-success" type="button">CREATE GROUP</button>
+                <button class="btn btn-outline-primary" type="button">JOIN GROUP</button>
+            </div>
         </nav>
+        
 
         <div class="chat-container">
             </div>
@@ -25,11 +30,11 @@
         <nav class="navbar navbar-dark bg-dark fixed-bottom">
             <form class="form-inline w-100 px-3 d-flex justify-content-center">
                 <input class="form-control" type="text" placeholder="Escribe aqui el mensaje que quieras enviar" style="width: 80%;">
-                <button class="btn btn-outline-success" type="button">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                <button class="btn btn-outline-success" type="button"><i class="fas fa-paper-plane"></i></button>
+
             </form>
         </nav>
     </div>
+    <script src="../js/home.js"></script>
 </body>
 </html>

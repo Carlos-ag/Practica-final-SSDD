@@ -23,10 +23,11 @@ body, html {
 }
 
 .form-control {
-    margin-right: 10px; /* Spacing between input and button */
+    flex-grow: 1;
+    margin-right: 8px; /* Adjust spacing between textfield and button */
 }
 
-/* Adjusts for Bootstrap's responsiveness */
+/* Responsive adjustments for smaller screens */
 @media (max-width: 576px) {
     .form-inline input {
         width: 75%;
@@ -36,18 +37,27 @@ body, html {
     }
 }
 
-.btn.btn-outline-success {
+.btn.btn-outline-success, .btn-outline-success {
     color: #fff;
     background-color: transparent;
     border-color: #28a745;
-}
-
-.btn.btn-outline-danger {
-    color: #fff;
-    background-color: transparent;
-    border-color: #dc3545;
+    flex-grow: 0; /* Prevent the button from growing */
+    margin: 0 5px; /* Adjust spacing around the button */
 }
 
 .fas {
     font-size: 18px;
+}
+
+.navbar.fixed-bottom .form-inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // API endpoint where you're sending a POST request for registration
-        const url = "http://127.0.0.1:5000/register"; // Update this URL to your actual register API endpoint
+        const url = "http://127.0.0.1:6789/register"; // Update this URL to your actual register API endpoint
 
         fetch(url, {
             method: "POST",
