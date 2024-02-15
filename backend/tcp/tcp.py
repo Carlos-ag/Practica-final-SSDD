@@ -1,5 +1,6 @@
 import socket
 import threading
+from chat_storage import add_message_to_chat
 
 def decode_message(message):
     message_info = {
@@ -28,7 +29,6 @@ def decode_message(message):
     return message_info
 
 
-
 def handle_client(client_socket, client_address):
     try:
         print(f"Connection from {client_address} has been established.")
@@ -42,6 +42,9 @@ def handle_client(client_socket, client_address):
             # decode the message 
             message_info = decode_message(message)
             print(f"Received message: {message_info}")
+
+            # add_message_to_chat(chat_id, user_id, message)
+            add_message_to_chat(message_info["chat_id"], message_info["user_id"], message_info["message"])
 
             response = "OK"
             client_socket.send(response.encode('utf-8'))
