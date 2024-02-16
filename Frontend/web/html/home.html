@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <link rel="stylesheet" href="../css/home.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -14,26 +18,88 @@
         <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
             <button class="btn btn-outline-success" type="button"><i class="fas fa-sign-out-alt"></i> LOGOUT</button>
             <div class="navbar-nav mx-auto">
-                <span class="navbar-brand mb-0 h1">Group Name</span>
+                <span class="navbar-brand mb-0 h1">Chat Name</span>
             </div>
             <div class="button-group">
-                <button class="btn btn-outline-success" type="button">CREATE GROUP</button>
-                <button class="btn btn-outline-primary" type="button">JOIN GROUP</button>
+                <button class="btn btn-outline-success" type="button">CREATE CHAT</button>
+                <button class="btn btn-outline-primary" type="button">JOIN CHAT</button>
             </div>
             
         </nav>
         
 
+        <!-- Join Group Modal -->
+<div class="modal fade" id="joinGroupModal" tabindex="-1" role="dialog" aria-labelledby="joinGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="joinGroupModalLabel">Join Chat</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="group-id" class="col-form-label">Chat ID:</label>
+              <input type="number" class="form-control" id="group-id">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Join Chat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Create Group Modal -->
+  <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createGroupModalLabel">Create Chat</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="new-group-name" class="col-form-label">Chat Name:</label>
+              <input type="text" class="form-control" id="new-group-name">
+            </div>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Create Chat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-dark bg-dark fixed-bottom">
+    <!-- Message for users who haven't joined a chat -->
+    <div id="promptJoinCreateChat" class="text-center w-100 py-2" style="color: white; display: none;">
+        Join or Create a chat to text messages
+    </div>
+
+    <!-- Form for users who have joined a chat -->
+    <div id="messageForm" class="form-inline w-100 px-3 d-flex justify-content-center" style="display: none;">
+        <input class="form-control" type="text" placeholder="Escribe aqui el mensaje que quieras enviar" style="width: 80%;">
+        <button class="btn btn-outline-success" type="button"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</nav>
+
+  
+
         <div class="chat-container">
             </div>
 
-        <nav class="navbar navbar-dark bg-dark fixed-bottom">
-            <form class="form-inline w-100 px-3 d-flex justify-content-center">
-                <input class="form-control" type="text" placeholder="Escribe aqui el mensaje que quieras enviar" style="width: 80%;">
-                <button class="btn btn-outline-success" type="button"><i class="fas fa-paper-plane"></i></button>
-
-            </form>
-        </nav>
+     
     </div>
     <script src="../js/home.js"></script>
 </body>

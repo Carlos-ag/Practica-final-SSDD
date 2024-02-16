@@ -11,7 +11,7 @@ def verify_password(stored_password, provided_password):
     """Verify a stored password against one provided by user."""
     return stored_password == hashlib.sha256(provided_password.encode()).hexdigest()
 
-def register_routes(app):
+def register_routes_authentification(app):
     @app.route('/register', methods=['POST'])
     def register():
         data = request.json

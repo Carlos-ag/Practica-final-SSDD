@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Create a cookie with user_id here
+                document.cookie = "user_id=" + data.user_id + ";path=/";
+
                 // Redirect to home.html upon successful login
                 window.location.href = "home.html";
             } else {
