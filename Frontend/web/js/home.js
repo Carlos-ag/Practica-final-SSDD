@@ -36,6 +36,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input class="form-control" type="text" placeholder="Escribe aqui el mensaje que quieras enviar" style="width: 80%;">
                 <button class="btn btn-outline-success" type="button"><i class="fas fa-paper-plane"></i></button>
             `;
+
+            const sendMessageButton = messageForm.querySelector('.btn-outline-success');
+            const messageInput = messageForm.querySelector('.form-control');
+
+            sendMessageButton.addEventListener('click', function() {
+                const message = messageInput.value;
+                const chat_id = getCookie('chat_id'); // Assuming you're setting this cookie somewhere
+                const user_id = getCookie('user_id');
+
+                if(message && chat_id && user_id) {
+                    eel.send_tcp_message_eel(chat_id, user_id, message);
+                    messageInput.value = ''; // Clear the input after sending the message
+                } else {
+                    alert('Message, chat ID, or user ID is missing.');
+                }
+            });
+        
             
 
         } else {
@@ -44,6 +61,22 @@ document.addEventListener('DOMContentLoaded', function() {
             messageForm.innerHTML = '';
             
         }
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
 
     // Initially call toggleChatUI with false to show the prompt and hide the form
@@ -63,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 alert('Chat created successfully. Chat ID: ' + data.chat_id);
+                document.cookie = `chat_id=${data.chat_id}`;
                 $('#createGroupModal').modal('hide');
                 toggleChatUI(true); // User has joined a chat, so toggle UI accordingly
                 chatNameText.innerHTML = chatName;
@@ -90,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 alert('Chat joined successfully. Chat Name: ' + data.chat_info[1] + ' Chat ID: ' + data.chat_info[0]);
-
+                document.cookie = `chat_id=${data.chat_info[0]}`;
                 $('#joinGroupModal').modal('hide');
                 toggleChatUI(true); // User has joined a chat, so toggle UI accordingly
                 chatNameText.innerHTML = data.chat_info[1];

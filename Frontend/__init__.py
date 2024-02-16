@@ -1,25 +1,24 @@
 import eel
 import os
 from os import getcwd
-from backend.chat_storage import get_chat_information, get_chat_history, create_chat, add_message_to_chat
+from frontend.my_python_code.tcp import send_tcp_message
+from frontend.my_python_code.global_variables import global_variables_init
+import os
 
 def create_web_app():
     eel.init(f'{os.path.dirname(os.path.realpath(__file__))}/web')
 
-    @eel.expose
-    def create_chat_in_database(chat_name):
-        chat_id = create_chat(chat_name)
-        return chat_id
+    global_variables_init()
+    
 
     @eel.expose
-    def get_chat_info(chat_id):
-        chat_info = get_chat_information(chat_id)
-        return chat_info
+    def send_tcp_message_eel(chat_id, user_id, message):
+        send_tcp_message(message, chat_id, user_id)
+        
+    
 
-    @eel.expose
-    def get_chat_history_from_database(chat_id):
-        chat_history = get_chat_history(chat_id)
-        return chat_history
-
-
+    # init at port 6788
+    # import from os where we are executing this, and then inside that folder, go to frontend/web/html/login.html
+    # print(f'{os.path.dirname(os.path.realpath(__file__))}/web/html/login.html') 
+    # eel.start('/Users/carlos/Documents/SSDD/Practica final SSDD/frontend/my_python_code/web/html/login.html', port=6788)
     eel.start('html/login.html')
