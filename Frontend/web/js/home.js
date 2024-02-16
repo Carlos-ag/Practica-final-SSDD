@@ -7,17 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = 'login.html';
             });
         } else if (button.textContent.includes('CREATE CHAT')) {
-            // Corrected to match the button text. Ensure this matches your actual button text.
             button.setAttribute('data-toggle', 'modal');
             button.setAttribute('data-target', '#createGroupModal');
         } else if (button.textContent.includes('JOIN CHAT')) {
-            // Corrected to match the button text. Ensure this matches your actual button text.
             button.setAttribute('data-toggle', 'modal');
             button.setAttribute('data-target', '#joinGroupModal');
         }
     });
 
-    // Additional logic for API calls
     const modalCreateChatButton = document.querySelector('#createGroupModal .btn-primary');
     const modalJoinChatButton = document.querySelector('#joinGroupModal .btn-primary');
 
@@ -25,16 +22,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatIdInput = document.getElementById('group-id');
 
     const promptJoinCreateChat = document.getElementById('promptJoinCreateChat');
-    const messageForm = document.getElementById('messageForm');
+    const messageForm = document.getElementById('messageAndPlaneIcon');
 
-    function initializeChatUI() {
-        promptJoinCreateChat.style.display = 'block'; // Show the prompt
-        messageForm.style.display = 'none'; // Hide the form
+    const chatNameText = document.getElementById('chatNameText');
+
+    function toggleChatUI(hasJoined) {
+        if (hasJoined) {
+            promptJoinCreateChat.style.display = 'none'; // Hide the prompt
+            // the content of the messageForm should be this:
+            // <input class="form-control" type="text" placeholder="Escribe aqui el mensaje que quieras enviar" style="width: 80%;">
+            // <button class="btn btn-outline-success" type="button"><i class="fas fa-paper-plane"></i></button>
+            messageForm.innerHTML = `
+                <input class="form-control" type="text" placeholder="Escribe aqui el mensaje que quieras enviar" style="width: 80%;">
+                <button class="btn btn-outline-success" type="button"><i class="fas fa-paper-plane"></i></button>
+            `;
+            
+
+        } else {
+            promptJoinCreateChat.style.display = 'block'; // Show the prompt
+            // the content of the messageForm should be null
+            messageForm.innerHTML = '';
+            
+        }
     }
 
-    initializeChatUI();
-
-
+    // Initially call toggleChatUI with false to show the prompt and hide the form
+    toggleChatUI(false);
 
     // Create chat event listener
     modalCreateChatButton.addEventListener('click', function() {
@@ -51,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 alert('Chat created successfully. Chat ID: ' + data.chat_id);
                 $('#createGroupModal').modal('hide');
-                promptJoinCreateChat.style.display = 'none';
-                messageForm.style.display = 'flex'; // Use 'flex' to keep the form's styling
+                toggleChatUI(true); // User has joined a chat, so toggle UI accordingly
+                chatNameText.innerHTML = chatName;
             } else {
                 alert('Failed to create chat');
             }
@@ -73,19 +86,14 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ chat_id: chatId }),
         })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Chat not found');
-            }
-        })
+        .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Chat joined successfully. Chat Info: ' + JSON.stringify(data.chat_info));
+                alert('Chat joined successfully. Chat Name: ' + data.chat_info[1] + ' Chat ID: ' + data.chat_info[0]);
+
                 $('#joinGroupModal').modal('hide');
-                promptJoinCreateChat.style.display = 'none';
-                messageForm.style.display = 'flex'; // Use 'flex' to keep the form's styling
+                toggleChatUI(true); // User has joined a chat, so toggle UI accordingly
+                chatNameText.innerHTML = data.chat_info[1];
             } else {
                 alert('Failed to join chat');
             }
