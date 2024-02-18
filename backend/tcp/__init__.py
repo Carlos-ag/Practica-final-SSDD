@@ -1,6 +1,7 @@
 import socket
 import threading
-from chat_storage import add_message_to_chat
+from chat_storage import save_message_to_db
+from multicast import send_multicast_message
 
 def decode_message(message):
     message_info = {
@@ -43,26 +44,29 @@ def handle_client(client_socket, client_address):
             message_info = decode_message(message)
             print(f"Received message: {message_info}")
 
+            chat_id = message_info["chat_id"]
+            user_id = message_info["user_id"]
+            message = message_info["message"]
+
+
             # add_message_to_chat(chat_id, user_id, message)
-            add_message_to_chat(message_info["chat_id"], message_info["user_id"], message_info["message"])
+
+            save_message_to_db(chat_id, user_id, message)
+            send_multicast_message(message, chat_id)
 
             response = "OK"
             client_socket.send(response.encode('utf-8'))
             
-            # TODO: FALTA
-            # send the message to the other users in the chat via multicast
-            # send_message_to_chat_members_via_multicast(message_info["chat_id"], message_info["user_id"], message_info["message"])
-
     except Exception as e:
         print(f"Error handling client {client_address}: {e}")
     finally:
         client_socket.close()
 
-def start_server_tcp(host='0.0.0.0', port=12345):
+def start_server_tcp(host, port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((host, port))
     server_socket.listen()
-    print(f"Server listening on {host}:{port}")
+    print(f"Server TCP listening on {host}:{port}")
     try:
         while True:
             client_socket, client_address = server_socket.accept()
@@ -74,6 +78,37 @@ def start_server_tcp(host='0.0.0.0', port=12345):
         server_socket.close()
 
 
+
+def read_tcp_address_from_file(file_path):
+    """
+    Reads the TCP server's IP and port from a given file.
+
+    Parameters:
+    - file_path: The path to the file containing address information.
+
+    Returns:
+    - A tuple containing the IP and port if found, otherwise (None, None).
+    """
+    try:
+        with open(file_path, "r") as file:
+            for line in file:
+                method, ip, port = line.strip().split(',')
+                if method.upper() == 'TCP':
+                    return ip, int(port)
+    except FileNotFoundError:
+        print(f"File {file_path} not found.")
+    except ValueError:
+        print(f"Error processing {file_path}. Check the file format.")
+    
+    return None, None
+
 def create_tcp_app():
-    start_server_tcp()
-    print("TCP server started")
+    """
+    Initializes the TCP server using the IP and port specified in 'addresses.txt'.
+    """
+    ip, port = read_tcp_address_from_file("addresses.txt")
+    if ip is not None and port is not None:
+        start_server_tcp(ip, port)
+    else:
+        print("Failed to start TCP server due to missing or invalid configuration.")
+

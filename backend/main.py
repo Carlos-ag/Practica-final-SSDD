@@ -2,7 +2,7 @@ from authentification import create_app
 from authentification.routes import register_routes_authentification
 from chat_storage.routes import register_routes_chat
 
-from tcp import start_server_tcp
+from tcp import create_tcp_app
 
 
 import threading
@@ -12,12 +12,14 @@ def main():
     register_routes_authentification(authentification_app)
     register_routes_chat(authentification_app)
 
-    # create thread to run the app in the port 6789
+    print("TCP server starting...")
+    thread_tcp = threading.Thread(target=create_tcp_app)
+    thread_tcp.start()
+
+    print("Authentification server starting...")
     thread_authentification = threading.Thread(target=authentification_app.run, kwargs={'port':6789})
     thread_authentification.start()
 
-    thread_tcp = threading.Thread(target=start_server_tcp)
-    thread_tcp.start()
 
 
 

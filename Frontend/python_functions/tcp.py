@@ -1,5 +1,29 @@
-import my_python_code.global_variables as global_variables
+import python_functions.global_variables as global_variables
 import socket
+
+def read_tcp_address_from_file(file_path):
+    """
+    Reads the TCP server's IP and port from a given file.
+
+    Parameters:
+    - file_path: The path to the file containing address information.
+
+    Returns:
+    - A tuple containing the IP and port if found, otherwise (None, None).
+    """
+    try:
+        with open(file_path, "r") as file:
+            for line in file:
+                method, ip, port = line.strip().split(',')
+                if method.upper() == 'TCP':
+                    return ip, int(port)
+    except FileNotFoundError:
+        print(f"File {file_path} not found.")
+    except ValueError:
+        print(f"Error processing {file_path}. Check the file format.")
+    
+    return None, None
+
 
 # create a function to connect to a tcp server
 def connet_to_tcp_server(ip, port):
@@ -11,8 +35,14 @@ def connet_to_tcp_server(ip, port):
 
 # create a function to send a message to a tcp server
 def send_tcp_message(message, chat_id, user_id):
+
     if global_variables.tcp_s is None:
-        connet_to_tcp_server("localhost", 12345)
+        ip, port = read_tcp_address_from_file("tcp_address.txt")
+        if ip is not None and port is not None:
+            connet_to_tcp_server(ip, port)
+        else:
+            print("No TCP server address found.")
+            return "ERROR"
     s = global_variables.tcp_s
     # messages look like this: 
     # <CHAT_ID> chat_id_info </CHAT_ID>

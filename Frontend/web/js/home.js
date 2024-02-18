@@ -80,9 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     eel.expose(add_chat_message);
-function add_chat_message(newContent) {
-    document.getElementById('chat-messages').innerHTML += newContent;
-}
+    function add_chat_message(newContent) {
+        document.getElementById('chat-messages').innerHTML += newContent;
+    }
+
 
 
 
@@ -103,6 +104,7 @@ function add_chat_message(newContent) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                eel.change_multicast_listening_port_eel(data.chat_id);
                 alert('Chat created successfully. Chat ID: ' + data.chat_id);
                 document.cookie = `chat_id=${data.chat_id}`;
                 $('#createGroupModal').modal('hide');
@@ -131,6 +133,7 @@ function add_chat_message(newContent) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                eel.change_multicast_listening_port_eel(data.chat_info[0]);
                 alert('Chat joined successfully. Chat Name: ' + data.chat_info[1] + ' Chat ID: ' + data.chat_info[0]);
                 document.cookie = `chat_id=${data.chat_info[0]}`;
                 $('#joinGroupModal').modal('hide');

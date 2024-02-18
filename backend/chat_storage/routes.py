@@ -1,7 +1,7 @@
 from flask import request, jsonify, g
 import hashlib
 import sqlite3
-from . import get_chat_information, get_chat_history, create_chat, add_message_to_chat
+from . import get_chat_information, get_chat_history, create_chat, save_message_to_db
 
 
 def register_routes_chat(app):

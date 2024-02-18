@@ -25,6 +25,15 @@ def init_db():
                         message TEXT NOT NULL,
                         FOREIGN KEY (chat_id) REFERENCES chats(id))''')
 
+        id_exists = conn.execute('''SELECT EXISTS(SELECT 1 FROM messages WHERE id=49152)''').fetchone()[0]
+
+        # If the record does not exist, insert it
+        if not id_exists:
+            conn.execute('''INSERT INTO messages (id, chat_id, user_id, message) VALUES (49152, 1, 1, 'Starting ID')''')
+
+        
+        
+
 init_db()  # Initialize the database when the module is imported
 
 # Define the module functions below
@@ -47,7 +56,7 @@ def create_chat(chat_name):
         conn.commit()
         return cur.lastrowid
 
-def add_message_to_chat(chat_id, user_id, message):
+def save_message_to_db(chat_id, user_id, message):
     with sqlite3.connect(messages_db_path) as conn:
         cur = conn.cursor()
         cur.execute("INSERT INTO messages (chat_id, user_id, message) VALUES (?, ?, ?)", (chat_id, user_id, message))
