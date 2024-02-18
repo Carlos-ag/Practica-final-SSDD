@@ -10,10 +10,6 @@ from frontend import create_web_app
 
 import threading
 
-authentification_app = create_app()
-register_routes_authentification(authentification_app)
-register_routes_chat(authentification_app)
-
 
 
 if __name__ == '__main__':

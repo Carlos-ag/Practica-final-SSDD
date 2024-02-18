@@ -1,10 +1,11 @@
 import eel
 import os
 from os import getcwd
-from frontend.my_python_code.tcp import send_tcp_message
-from frontend.my_python_code.global_variables import global_variables_init
+from my_python_code.tcp import send_tcp_message
+from my_python_code.global_variables import global_variables_init
 import os
-from frontend.my_python_code.multicast import multicast_client
+from my_python_code.multicast import multicast_client
+import threading
 
 def create_web_app():
     eel.init(f'{os.path.dirname(os.path.realpath(__file__))}/web')

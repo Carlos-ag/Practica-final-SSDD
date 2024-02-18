@@ -1,6 +1,6 @@
 import socket
 import threading
-from backend.chat_storage import add_message_to_chat
+from chat_storage import add_message_to_chat
 
 def decode_message(message):
     message_info = {

@@ -1,4 +1,4 @@
-import frontend.my_python_code.global_variables as global_variables
+import my_python_code.global_variables as global_variables
 import socket
 
 # create a function to connect to a tcp server
