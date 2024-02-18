@@ -4,16 +4,22 @@ from os import getcwd
 from frontend.my_python_code.tcp import send_tcp_message
 from frontend.my_python_code.global_variables import global_variables_init
 import os
+from frontend.my_python_code.multicast import multicast_client
 
 def create_web_app():
     eel.init(f'{os.path.dirname(os.path.realpath(__file__))}/web')
 
     global_variables_init()
+
+    # start the multicast client in a new thread
+    t = threading.Thread(target=multicast_client)
+    t.start()
     
 
     @eel.expose
     def send_tcp_message_eel(chat_id, user_id, message):
         send_tcp_message(message, chat_id, user_id)
+
         
     
 

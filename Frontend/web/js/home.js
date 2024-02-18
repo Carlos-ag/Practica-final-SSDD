@@ -79,6 +79,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return cookieValue;
     }
 
+    eel.expose(add_chat_message);
+function add_chat_message(newContent) {
+    document.getElementById('chat-messages').innerHTML += newContent;
+}
+
+
+
+
     // Initially call toggleChatUI with false to show the prompt and hide the form
     toggleChatUI(false);
 
