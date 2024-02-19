@@ -12,7 +12,7 @@ def verify_password(stored_password, provided_password):
     return stored_password == hashlib.sha256(provided_password.encode()).hexdigest()
 
 def register_routes_authentification(app):
-    @app.route('/register', methods=['POST'])
+    @app.route('/api/register', methods=['POST'])
     def register():
         data = request.json
         db = get_db()
@@ -29,7 +29,7 @@ def register_routes_authentification(app):
         return jsonify(success=True, user_id=user_id), 201
 
 
-    @app.route('/login', methods=['POST'])
+    @app.route('/api/login', methods=['POST'])
     def login():
         data = request.json
         db = get_db()

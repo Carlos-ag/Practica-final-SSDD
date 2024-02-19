@@ -73,20 +73,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message');
 
-        console.log(user_id);
-        console.log(localStorage.getItem('user_id'));
-        console.log(message)
-    
-        if(user_id === localStorage.getItem('user_id')) {
+        // Ensure user_id from the message and localStorage are compared correctly
+        const localUserId = localStorage.getItem('user_id');
+        // Parse user_id from the message to the same type as stored in localStorage, assuming localStorage stores IDs as strings
+        user_id = user_id.toString();
+
+        console.log(user_id, localUserId, message);
+
+        if(user_id === localUserId) {
             messageDiv.classList.add('my-message');
         } else {
             messageDiv.classList.add('other-message');
         }
-    
+
         messageDiv.innerText = message;
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
     }
+
     
 
 
@@ -100,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modalCreateChatButton.addEventListener('click', async function() {
         await eel.print_hi("hi");
         const chatName = chatNameInput.value;
-        fetch('http://127.0.0.1:6789/create_chat', {
+        fetch('http://127.0.0.1:6789/api/create_chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -131,9 +135,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Join chat event listener
    // Join chat event listener
+    // Join chat event listener
     modalJoinChatButton.addEventListener('click', function() {
         const chatId = chatIdInput.value;
-        fetch('http://127.0.0.1:6789/get_chat_information', {
+        fetch('http://127.0.0.1:6789/api/get_chat_information', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -143,11 +148,36 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-
+                // First, change multicast listening port
                 eel.change_multicast_listening_port_eel(data.chat_info[0]);
+                
+                // Fetch the chat history
+                fetch('http://127.0.0.1:6789/api/get_chat_history', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ chat_id: chatId }),
+                })
+                .then(response => response.json())
+                .then(historyData => {
+                    if (historyData.success) {
+                        // Loop through the chat history and add each message
+                        historyData.chat_history.forEach(message => {
+                            console.log(message);
+                            add_chat_message(message.user_id, message.content);
+                        });
+                    } else {
+                        alert('Failed to retrieve chat history.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching chat history:', error);
+                    alert('Error fetching chat history');
+                });
 
                 alert('Chat joined successfully. Chat Name: ' + data.chat_info[1] + ' Chat ID: ' + data.chat_info[0]);
-                localStorage.setItem('chat_id', data.chat_info[0]); // Modificado aquí
+                localStorage.setItem('chat_id', data.chat_info[0]);
                 $('#joinGroupModal').modal('hide');
                 toggleChatUI(true); // User has joined a chat, so toggle UI accordingly
                 chatNameText.innerHTML = data.chat_info[1];
