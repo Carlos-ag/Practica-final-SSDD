@@ -44,15 +44,20 @@ def handle_client(client_socket, client_address):
             message_info = decode_message(message)
             print(f"Received message: {message_info}")
 
-            chat_id = message_info["chat_id"]
-            user_id = message_info["user_id"]
+            # cast chat_id and user_id to int
+            # chat_id = message_info["chat_id"]
+            chat_id = int(message_info["chat_id"])
+            # user_id = message_info["user_id"]
+            user_id = int(message_info["user_id"])
             message = message_info["message"]
 
 
             # add_message_to_chat(chat_id, user_id, message)
 
             save_message_to_db(chat_id, user_id, message)
-            send_multicast_message(message, chat_id)
+            print(f"Saved message to chat {chat_id} from user {user_id}: {message}")
+            send_multicast_message(message, chat_id, user_id)
+            print(f"Sent message to multicast group {chat_id}: {message}")
 
             response = "OK"
             client_socket.send(response.encode('utf-8'))

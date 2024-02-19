@@ -23,9 +23,11 @@ def register_routes_authentification(app):
             return jsonify(success=False, message="Username already exists."), 409
         hashed_password = hash_password(data['password'])
         cursor.execute('INSERT INTO user (username, password, name) VALUES (?, ?, ?)',
-                       (data['username'], hashed_password, data['name']))
+                    (data['username'], hashed_password, data['name']))
         db.commit()
-        return jsonify(success=True), 201
+        user_id = cursor.lastrowid  # Get the last inserted id
+        return jsonify(success=True, user_id=user_id), 201
+
 
     @app.route('/login', methods=['POST'])
     def login():
@@ -36,6 +38,9 @@ def register_routes_authentification(app):
         user = cursor.fetchone()
         if not user or not verify_password(user['password'], data['password']):
             return jsonify(success=False, message="Invalid username or password."), 401
-        return jsonify(success=True), 200
+        # Assuming 'id' is the column name for the user identifier in your database
+        user_id = user['id']  # Adjust this line based on how your user dictionary is structured
+        return jsonify(success=True, user_id=user_id), 200
+
 
 # Remember to import get_db from your __init__.py or wherever it's defined

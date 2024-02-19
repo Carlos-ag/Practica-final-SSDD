@@ -67,3 +67,24 @@ body, html {
     justify-content: center;
     align-items: center;
 }
+
+.message {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    max-width: 60%;
+    word-wrap: break-word;
+}
+
+.my-message {
+    margin-left: auto;
+    background-color: #007bff;
+    color: white;
+}
+
+.other-message {
+    margin-right: auto;
+    background-color: #e9ecef;
+    color: black;
+}
+

@@ -32,7 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             if (data.success) {
                 console.log("Success:", data);
-                document.cookie = "user_id=" + data.user_id + ";path=/";
+                console.log("User ID: " + data.user_id);
+                localStorage.setItem("user_id", data.user_id);
+
                 // Redirect to home.html upon successful registration
                 window.location.href = "home.html";
             } else {

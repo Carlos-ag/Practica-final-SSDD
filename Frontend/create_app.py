@@ -19,12 +19,7 @@ def create_web_app():
     @eel.expose
     def change_multicast_listening_port_eel(port):
         change_multicast_listening_port(port)
-
-
     
 
-    # init at port 6788
-    # import from os where we are executing this, and then inside that folder, go to frontend/web/html/login.html
-    # print(f'{os.path.dirname(os.path.realpath(__file__))}/web/html/login.html') 
-    # eel.start('/Users/carlos/Documents/SSDD/Practica final SSDD/frontend/python_functions/web/html/login.html', port=6788)
+
     eel.start('html/login.html')

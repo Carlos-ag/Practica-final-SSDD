@@ -32,12 +32,13 @@ def connet_to_tcp_server(ip, port):
     # connect to the server
     s.connect((ip, port))
     global_variables.tcp_s = s
+    print("Connected to TCP server.")
 
 # create a function to send a message to a tcp server
 def send_tcp_message(message, chat_id, user_id):
 
     if global_variables.tcp_s is None:
-        ip, port = read_tcp_address_from_file("tcp_address.txt")
+        ip, port = read_tcp_address_from_file("addresses.txt")
         if ip is not None and port is not None:
             connet_to_tcp_server(ip, port)
         else:
@@ -52,6 +53,7 @@ def send_tcp_message(message, chat_id, user_id):
     message = f"<CHAT_ID>{chat_id}</CHAT_ID><USER_ID>{user_id}</USER_ID><MESSAGE>{message}</MESSAGE>"
     # send the message to the server
     s.send(message.encode('utf-8'))
+    print(f"Sent message to TCP server: {message}")
     # wait for OK response
     response = s.recv(1024).decode('utf-8')
     return response
