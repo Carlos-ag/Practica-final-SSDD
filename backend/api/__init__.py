@@ -1,5 +1,10 @@
+from flask import Flask, g, current_app
+from flask_cors import CORS
 import sqlite3
 import os
+import sqlite3
+
+
 
 # Define the path for the database
 db_path = os.path.join(os.path.dirname(__file__), '..', 'databases')
@@ -8,6 +13,43 @@ os.makedirs(db_path, exist_ok=True)  # Ensure the databases directory exists
 chats_db_path = os.path.join(db_path, 'chats.db')
 messages_db_path = os.path.join(db_path, 'messages.db')
 users_db_path = os.path.join(db_path, 'users.db')
+
+
+def create_app():
+    app = Flask(__name__)
+    CORS(app)
+    file_path = os.path.abspath(os.getcwd())+"/backend/databases/users.db"
+    app.config['DATABASE'] = file_path
+
+    if not os.path.exists('./backend/databases'):
+        os.makedirs('./backend/databases')
+
+    init_db()
+
+
+    @app.teardown_appcontext
+    def close_db(error):
+        if hasattr(g, 'db'):
+            g.db.close()
+
+    return app
+
+def get_db():
+    if 'db' not in g:
+        g.db = sqlite3.connect(
+            current_app.config['DATABASE'],
+            detect_types=sqlite3.PARSE_DECLTYPES
+        )
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+
+def close_db(e=None):
+    db = g.pop('db', None)
+
+    if db is not None:
+        db.close()
+
 
 # Initialize databases
 def init_db():
@@ -43,7 +85,7 @@ def init_db():
         
         
 
-init_db()  # Initialize the database when the module is imported
+  # Initialize the database when the module is imported
 
 # Define the module functions below
 def get_chat_information(chat_id):

@@ -35,6 +35,8 @@ def send_multicast_message(message, port, user_id, username):
         message = f"<USER_ID>{user_id}</USER_ID><USERNAME>{username}</USERNAME><MESSAGE>{message}</MESSAGE>"
         # Send the message
         sock.sendto(message.encode(), (MCAST_GRP, port))
+    except Exception as e:
+        print(f"Error sending multicast message: {e}")
     finally:
         # Close the socket
         sock.close()

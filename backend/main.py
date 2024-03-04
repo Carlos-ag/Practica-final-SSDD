@@ -1,6 +1,6 @@
-from authentification import create_app
-from authentification.routes import register_routes_authentification
-from chat_storage.routes import register_routes_chat
+from api import create_app
+from api.routes import register_routes_authentification
+from api.routes import register_routes_chat
 
 from tcp import create_tcp_app
 

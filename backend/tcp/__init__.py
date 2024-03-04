@@ -1,8 +1,10 @@
 import socket
 import threading
-from chat_storage import save_message_to_db
+from api import save_message_to_db
 from multicast import send_multicast_message
-from api import get_username_from_id
+from api.routes import get_username_from_id
+import requests
+from requests.auth import HTTPBasicAuth
 
 def decode_message(message):
     message_info = {
@@ -31,6 +33,20 @@ def decode_message(message):
     return message_info
 
 
+def get_username_from_id_api(user_id):
+   # The URL to your endpoint, adjusted to include the user_id in the path
+    url = f'http://127.0.0.1:6789/api/get_username_from_id/{user_id}'
+
+    # Sending a GET request to the URL
+    response = requests.get(url)
+
+    # Checking if the request was successful
+    if response.status_code == 200:
+        data = response.json()
+        return data['username']
+    else:
+        print("Failed to retrieve username")
+
 def handle_client(client_socket, client_address):
     try:
         print(f"Connection from {client_address} has been established.")
@@ -51,8 +67,13 @@ def handle_client(client_socket, client_address):
             # user_id = message_info["user_id"]
             user_id = int(message_info["user_id"])
             message = message_info["message"]
-            username = get_username_from_id(user_id)
+            
+            username = get_username_from_id_api(user_id)
 
+
+            
+
+            print("hasta aqui todo bien")
 
             # add_message_to_chat(chat_id, user_id, message)
 
