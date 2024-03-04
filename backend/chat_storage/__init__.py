@@ -7,6 +7,7 @@ os.makedirs(db_path, exist_ok=True)  # Ensure the databases directory exists
 
 chats_db_path = os.path.join(db_path, 'chats.db')
 messages_db_path = os.path.join(db_path, 'messages.db')
+users_db_path = os.path.join(db_path, 'users.db')
 
 # Initialize databases
 def init_db():
@@ -15,6 +16,14 @@ def init_db():
         conn.execute('''CREATE TABLE IF NOT EXISTS chats (
                         id INTEGER PRIMARY KEY,
                         name TEXT NOT NULL)''')
+
+    with sqlite3.connect(users_db_path) as conn:
+        conn.execute('''CREATE TABLE IF NOT EXISTS user (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        username TEXT UNIQUE NOT NULL,
+                        password TEXT NOT NULL,
+                        name TEXT NOT NULL)''')
+
     
     # Connect to the messages database and create the table if it doesn't exist
     with sqlite3.connect(messages_db_path) as conn:

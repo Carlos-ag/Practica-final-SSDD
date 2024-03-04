@@ -68,17 +68,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     eel.expose(add_chat_message);
-    function add_chat_message(user_id, message) {
+    function add_chat_message(user_id, username, message) {
         const chatMessages = document.getElementById('chat-messages');
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message');
+
+        // Username display
+        const usernameDiv = document.createElement('div');
+        usernameDiv.classList.add('username');
+        usernameDiv.innerText = username;
+        messageDiv.appendChild(usernameDiv);
 
         // Ensure user_id from the message and localStorage are compared correctly
         const localUserId = localStorage.getItem('user_id');
         // Parse user_id from the message to the same type as stored in localStorage, assuming localStorage stores IDs as strings
         user_id = user_id.toString();
 
-        console.log(user_id, localUserId, message);
+        console.log(user_id, localUserId, message, username);
 
         if(user_id === localUserId) {
             messageDiv.classList.add('my-message');
@@ -86,10 +92,14 @@ document.addEventListener('DOMContentLoaded', function() {
             messageDiv.classList.add('other-message');
         }
 
-        messageDiv.innerText = message;
+        const messageContentDiv = document.createElement('div');
+        messageContentDiv.innerText = message;
+        messageDiv.appendChild(messageContentDiv);
+
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
     }
+
 
     
 
@@ -102,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Create chat event listener
     modalCreateChatButton.addEventListener('click', async function() {
-        await eel.print_hi("hi");
+
         const chatName = chatNameInput.value;
         fetch('http://127.0.0.1:6789/api/create_chat', {
             method: 'POST',

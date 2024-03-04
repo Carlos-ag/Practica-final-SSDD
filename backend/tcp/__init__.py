@@ -2,6 +2,7 @@ import socket
 import threading
 from chat_storage import save_message_to_db
 from multicast import send_multicast_message
+from api import get_username_from_id
 
 def decode_message(message):
     message_info = {
@@ -50,13 +51,14 @@ def handle_client(client_socket, client_address):
             # user_id = message_info["user_id"]
             user_id = int(message_info["user_id"])
             message = message_info["message"]
+            username = get_username_from_id(user_id)
 
 
             # add_message_to_chat(chat_id, user_id, message)
 
             save_message_to_db(chat_id, user_id, message)
             print(f"Saved message to chat {chat_id} from user {user_id}: {message}")
-            send_multicast_message(message, chat_id, user_id)
+            send_multicast_message(message, chat_id, user_id, username)
             print(f"Sent message to multicast group {chat_id}: {message}")
 
             response = "OK"

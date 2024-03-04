@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                // add basic auth header here
+                'Authorization': 'Basic ' + btoa(email + ":" + password)
             },
             body: JSON.stringify({
                 username: email, // Make sure this matches with your backend expectation

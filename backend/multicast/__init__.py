@@ -16,7 +16,7 @@ except FileNotFoundError:
 except ValueError:
     print("Error processing addresses.txt. Using default MCAST_GRP.")
 
-def send_multicast_message(message, port, user_id):
+def send_multicast_message(message, port, user_id, username):
     """
     Sends a multicast message to a specified port.
 
@@ -32,7 +32,7 @@ def send_multicast_message(message, port, user_id):
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
     try:
-        message = f"<USER_ID>{user_id}</USER_ID><MESSAGE>{message}</MESSAGE>"
+        message = f"<USER_ID>{user_id}</USER_ID><USERNAME>{username}</USERNAME><MESSAGE>{message}</MESSAGE>"
         # Send the message
         sock.sendto(message.encode(), (MCAST_GRP, port))
     finally:

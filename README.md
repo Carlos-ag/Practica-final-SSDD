@@ -8,12 +8,12 @@ En esta práctica vamos a hacer un chat Multiusuario que se comunique mediante M
 
 ## Como ejecutar:
 
+
 ### Librerías Python necesarias:
 - Eel ``pip install Eel``
 - Flask ``pip install Flask``
 - Flask-Cors ``pip install Flask-Cors``
-
-
+- Flask-HTTPAuth ``pip install Flask-HTTPAuth``
 
 ## Almacenamiento:
 
@@ -22,4 +22,8 @@ Para guardar la información de los usuarios se ha creado una base de datos SQL 
 
 
 # Información importante:
-La aplicacion como MÁXIMO podrá usar 65535-49152 chatrooms, ya que el rango de puertos para Multicast es de 49152 a 65535.
+La aplicacion usa para cada chat un puerto multicast distinto. 
+
+
+## Funcionamiento:
+Hemos añadido Flask Basic Auth para que los usuarios se tengan que autenticar para poder acceder al chat.
