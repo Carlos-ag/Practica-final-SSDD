@@ -172,10 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(historyData => {
                     if (historyData.success) {
-                        // Loop through the chat history and add each message
+                        // Loop through the chat history and add each message with the username
                         historyData.chat_history.forEach(message => {
-                            console.log(message);
-                            add_chat_message(message.user_id, message.content);
+
+                            add_chat_message(message.user_id, message.username, message.content);
                         });
                     } else {
                         alert('Failed to retrieve chat history.');

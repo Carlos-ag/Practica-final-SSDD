@@ -3,6 +3,7 @@ import struct
 import threading
 import time
 import eel
+import os
 
 # Placeholder for multicast IP and port
 MCAST_GRP = 'localhost'
@@ -48,7 +49,10 @@ def multicast_listener(stop_event):
             current_grp = MCAST_GRP
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        if os.name == 'posix':  # For macOS
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+        elif os.name == 'nt':  # For Windows
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(('', current_port))
         
         group = socket.inet_aton(current_grp)

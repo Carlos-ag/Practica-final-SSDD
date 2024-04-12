@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: {
                 "Content-Type": "application/json",
                 // add basic auth header here
-                'Authorization': 'Basic ' + btoa(email + ":" + password)
+                "Authorization": 'Basic ' + btoa(email + ":" + password)
             },
             body: JSON.stringify({
                 username: email, // Make sure this matches with your backend expectation
@@ -36,6 +36,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert("Login failed: " + data.message);
             }
         })
-        .catch(error => console.error("Error:", error));
+        .catch(error => alert("Ha habido un error"));
     });
 });

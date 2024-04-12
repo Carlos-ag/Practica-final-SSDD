@@ -27,3 +27,9 @@ La aplicacion usa para cada chat un puerto multicast distinto.
 
 ## Funcionamiento:
 Hemos añadido Flask Basic Auth para que los usuarios se tengan que autenticar para poder acceder al chat.
+
+A continuación se muestra la arquitectura de la aplicación:
+![Arquitectura](arquitectura.png)
+
+Como podemos ver tenemos dos partes distintas: cliente y servidor.
+

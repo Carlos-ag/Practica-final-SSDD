@@ -49,7 +49,6 @@ def verify_password(stored_password, provided_password):
 
 def register_routes_authentification(app):
     @app.route('/api/register', methods=['POST'])
-    @auth.login_required
     def register():
         data = request.json
         db = get_db()
@@ -67,7 +66,6 @@ def register_routes_authentification(app):
 
 
     @app.route('/api/login', methods=['POST'])
-    @auth.login_required
     def login():
         data = request.json
         db = get_db()

@@ -21,5 +21,11 @@ def create_web_app():
         change_multicast_listening_port(port)
     
 
-
-    eel.start('html/login.html')
+    # with open port_eel.txt start the port and write the port +1 to the file
+    port_file_name = 'frontend/port_eel.txt'
+    with open(port_file_name, 'r') as file:
+        port = int(file.read())
+    with open(port_file_name, 'w') as file:
+        file.write(str(port+1))
+    
+    eel.start('html/login.html', port=port)
