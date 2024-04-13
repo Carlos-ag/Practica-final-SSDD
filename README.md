@@ -2,6 +2,8 @@
 
 Alumno: **Carlos Martín de Argila Lorente** 4A GITT
 
+# Para más información consultar el informe.
+
 ## Descripción:
 
 En esta práctica vamos a hacer un chat Multiusuario que se comunique mediante Multicast. 
@@ -41,5 +43,4 @@ A continuación se muestra la arquitectura de la aplicación:
 
 Como podemos ver tenemos dos partes distintas: cliente y servidor.
 
-# Para más información consultar el informe.
 
