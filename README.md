@@ -8,6 +8,16 @@ En esta práctica vamos a hacer un chat Multiusuario que se comunique mediante M
 
 ## Como ejecutar:
 
+Ejecutar desde la carpeta raíz del proyecto el siguiente comando:
+
+**Backend:**
+``python backend/main.py``
+
+**Frontend:**
+``python frontend/main.py``
+
+
+
 
 ### Librerías Python necesarias:
 - Eel ``pip install Eel``
@@ -18,7 +28,7 @@ En esta práctica vamos a hacer un chat Multiusuario que se comunique mediante M
 ## Almacenamiento:
 
 ### Información de los usuarios
-Para guardar la información de los usuarios se ha creado una base de datos SQL en la que se almacenan los usuarios que se conectan al chat. Esta base de 
+Para guardar la información de los usuarios se ha creado una base de datos SQL en la que se almacenan los usuarios que se conectan al chat. 
 
 
 # Información importante:
@@ -26,10 +36,10 @@ La aplicacion usa para cada chat un puerto multicast distinto.
 
 
 ## Funcionamiento:
-Hemos añadido Flask Basic Auth para que los usuarios se tengan que autenticar para poder acceder al chat.
-
 A continuación se muestra la arquitectura de la aplicación:
 ![Arquitectura](arquitectura.png)
 
 Como podemos ver tenemos dos partes distintas: cliente y servidor.
+
+# Para más información consultar el informe.
 

@@ -16,7 +16,7 @@ def decode_message(message):
     # <CHAT_ID> chat_id_info </CHAT_ID>
     # <USER_ID> user_id_info </USER_ID>
     # <MESSAGE> message_info </MESSAGE>
-    # split the message by the tags
+    
 
     # get the chat_id
     chat_id = message.split("</CHAT_ID>")[0].split("<CHAT_ID>")[1]
@@ -34,7 +34,7 @@ def decode_message(message):
 
 
 def get_username_from_id_api(user_id):
-   # The URL to your endpoint, adjusted to include the user_id in the path
+    # URL for the API endpoint
     url = f'http://127.0.0.1:6789/api/get_username_from_id/{user_id}'
 
     # Sending a GET request to the URL
@@ -57,14 +57,13 @@ def handle_client(client_socket, client_address):
                 break
                 
             # the message contains the CHAT_ID, the user_id and the message
-            # decode the message 
+            
             message_info = decode_message(message)
             print(f"Received message: {message_info}")
 
-            # cast chat_id and user_id to int
-            # chat_id = message_info["chat_id"]
+            
             chat_id = int(message_info["chat_id"])
-            # user_id = message_info["user_id"]
+            
             user_id = int(message_info["user_id"])
             message = message_info["message"]
             
@@ -73,7 +72,7 @@ def handle_client(client_socket, client_address):
 
             
 
-            print("hasta aqui todo bien")
+            # print("hasta aqui todo bien")
 
             # add_message_to_chat(chat_id, user_id, message)
 

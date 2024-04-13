@@ -71,7 +71,7 @@ def multicast_listener(stop_event):
             print(f"Received multicast message: {data}")
             # message looks like this:
             # message = f"<USER_ID>{user_id}</USER_ID><USERNAME>{username}</USERNAME><MESSAGE>{message}</MESSAGE>"
-            # TODO: FALTA
+            
             user_id = data.split('<USER_ID>')[1].split('</USER_ID>')[0]
             username = data.split('<USERNAME>')[1].split('</USERNAME>')[0]
             message = data.split('<MESSAGE>')[1].split('</MESSAGE>')[0]

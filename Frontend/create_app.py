@@ -21,7 +21,7 @@ def create_web_app():
         change_multicast_listening_port(port)
     
 
-    # with open port_eel.txt start the port and write the port +1 to the file
+    
     port_file_name = 'frontend/port_eel.txt'
     with open(port_file_name, 'r') as file:
         port = int(file.read())

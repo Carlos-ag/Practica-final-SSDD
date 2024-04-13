@@ -74,11 +74,11 @@ def register_routes_authentification(app):
         user = cursor.fetchone()
         if not user or not verify_password(user['password'], data['password']):
             return jsonify(success=False, message="Invalid username or password."), 401
-        # Assuming 'id' is the column name for the user identifier in your database
-        user_id = user['id']  # Adjust this line based on how your user dictionary is structured
+       
+        user_id = user['id']  
         return jsonify(success=True, user_id=user_id), 200
 
-    # api endpoint to exchange the user_id for the username: get_username_from_id(user_id)
+    
     @app.route('/api/get_username_from_id/<user_id>', methods=['GET'])
     def get_username_from_id_api(user_id):
         username = get_username_from_id(user_id)
@@ -96,8 +96,7 @@ def register_routes_authentification(app):
 
 def register_routes_chat(app):
     # get chat information, get_chat_information(chat_id) -> chat_info
-    # use a post
-    @auth.login_required
+    
     @app.route('/api/get_chat_information', methods=['POST'])
     def get_chat_information_api():
         data = request.json
@@ -109,14 +108,13 @@ def register_routes_chat(app):
     
     # get chat history, get_chat_history(chat_id) -> list of messages
 
-    @auth.login_required
     @app.route('/api/get_chat_history', methods=['POST'])
     def get_chat_history_api():
         data = request.json
         raw_chat_history = get_chat_history(data['chat_id'])
-        if not raw_chat_history:
+        if raw_chat_history is None:
             return jsonify(success=False, message="Chat not found."), 404
-
+        
         # Convert each tuple in the chat history to a dictionary
         chat_history = [
             {
@@ -125,13 +123,12 @@ def register_routes_chat(app):
                 'user_id': message[2],
                 'username': get_username_from_id(message[2]),
                 'content': message[3]
-            } for message in raw_chat_history
+            }
+            for message in raw_chat_history
         ]
-
         return jsonify(success=True, chat_history=chat_history), 200
 
     # create chat, create_chat(chat_name) -> chat_id
-    @auth.login_required
     @app.route('/api/create_chat', methods=['POST'])
     def create_chat_api():
         data = request.json

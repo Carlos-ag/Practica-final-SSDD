@@ -7,18 +7,18 @@ document.addEventListener("DOMContentLoaded", function() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        // API endpoint where you're sending a POST request for login
-        const url = "http://127.0.0.1:6789/api/login"; // Update this URL to your actual login API endpoint
+        // API endpoint for login
+        const url = "http://127.0.0.1:6789/api/login"; 
 
         fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                // add basic auth header here
+                
                 "Authorization": 'Basic ' + btoa(email + ":" + password)
             },
             body: JSON.stringify({
-                username: email, // Make sure this matches with your backend expectation
+                username: email,
                 password: password,
             }),
         })
